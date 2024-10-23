@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://c37wispmbvhr7"]
+
+[ext_resource type="Script" path="res://camera_3d.gd" id="1_gauni"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wmgbf"]
+noise_type = 3
+
+[sub_resource type="VoxelGeneratorNoise" id="VoxelGeneratorNoise_giqqw"]
+noise = SubResource("FastNoiseLite_wmgbf")
+
+[sub_resource type="VoxelMesherTransvoxel" id="VoxelMesherTransvoxel_3ndw2"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sl55v"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ncw1f"]
+sky_material = SubResource("ProceduralSkyMaterial_sl55v")
+
+[sub_resource type="Environment" id="Environment_tr55g"]
+background_mode = 2
+sky = SubResource("Sky_ncw1f")
+tonemap_mode = 2
+
+[node name="VoxelLodTerrain" type="VoxelLodTerrain"]
+generator = SubResource("VoxelGeneratorNoise_giqqw")
+mesher = SubResource("VoxelMesherTransvoxel_3ndw2")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tr55g")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.0209378, 0.499561, 0, 0.999123, 0.0418757, -0.5, 0.0362654, -0.865266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 230.546, 0)
+script = ExtResource("1_gauni")
+
+[node name="VoxelViewer" type="VoxelViewer" parent="Camera3D"]
